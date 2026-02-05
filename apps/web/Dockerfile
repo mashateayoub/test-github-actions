@@ -1,11 +1,11 @@
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 RUN apk add --no-cache libc6-compat
 RUN npm install -g turbo
 WORKDIR /app
 COPY . .
 RUN turbo prune web --docker
 
-FROM node:18-alpine AS installer
+FROM node:20-alpine AS installer
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
@@ -20,7 +20,7 @@ COPY --from=builder /app/out/full/ .
 COPY turbo.json turbo.json
 RUN npx turbo run build --filter=web...
 
-FROM node:18-alpine AS runner
+FROM node:20-alpine AS runner
 WORKDIR /app
 
 # Don't run production as root
