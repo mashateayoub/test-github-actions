@@ -11,6 +11,7 @@ This monorepo includes the following applications and packages:
 - `api`: A [NestJS](https://nestjs.com/) API.
 - `web`: A [Next.js](https://nextjs.org/) web application (running on port 3000).
 - `docs`: A [Next.js](https://nextjs.org/) documentation site (running on port 3001).
+- `database`: A custom PostgreSQL setup with seeded data for development.
 
 ### Packages
 
@@ -30,17 +31,30 @@ Install dependencies from the root:
 npm install
 ```
 
-### Run all apps
+### Local Development
 
-To develop all apps and packages simultaneously:
+To run all apps in development mode:
 
 ```sh
 npm run dev
 ```
 
+### Docker Development (Recommended)
+
+To build and start all services, including the PostgreSQL database:
+
+```sh
+docker compose up --build
+```
+
+- **API**: `http://localhost:4000/data`
+- **Web**: `http://localhost:3000`
+- **Docs**: `http://localhost:3001`
+- **DB**: Port `5432`
+
 ### Build
 
-To build all apps and packages:
+To build all apps and packages for production:
 
 ```sh
 npm run build
