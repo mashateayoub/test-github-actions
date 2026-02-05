@@ -31,7 +31,7 @@ services:
       context: .
       dockerfile: apps/web/Dockerfile
     ports:
-      - "3006:3000"
+      - "3000:3000"
     environment:
       - PORT=3000
     networks:
@@ -44,7 +44,7 @@ services:
       context: .
       dockerfile: apps/docs/Dockerfile
     ports:
-      - "3005:3001"
+      - "3001:3001"
     environment:
       - PORT=3001
     networks:

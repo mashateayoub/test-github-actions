@@ -18,7 +18,17 @@ const ThemeImage = (props: Props) => {
   );
 };
 
-export default function Home() {
+export default async function Home() {
+  let apiData: any = null;
+  try {
+    const response = await fetch("http://api:4000/data", {
+      next: { revalidate: 10 },
+    });
+    apiData = await response.json();
+  } catch (error) {
+    console.error("Failed to fetch data from API:", error);
+  }
+
   return (
     <div className={styles.page}>
       <main className={styles.main}>
@@ -31,6 +41,24 @@ export default function Home() {
           height={38}
           priority
         />
+
+        {apiData ? (
+          <div className={styles.apiContent}>
+            <h2>Data from NestJS API + Postgres</h2>
+            <p>{apiData.message}</p>
+            <p>Fetched at: {apiData.timestamp}</p>
+            <ul className={styles.userList}>
+              {apiData.data.map((user: any, index: number) => (
+                <li key={index}>
+                  <strong>{user.name}</strong> - Age: {user.age}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : (
+          <p className={styles.error}>Could not connect to the API 😢</p>
+        )}
+
         <ol>
           <li>
             Get started by editing <code>apps/web/app/page.tsx</code>
