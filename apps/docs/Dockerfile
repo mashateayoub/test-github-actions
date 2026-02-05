@@ -26,15 +26,15 @@ WORKDIR /app
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
-USER nestjs
+USER nextjs
 
 COPY --from=installer /app/apps/docs/next.config.js .
 COPY --from=installer /app/apps/docs/package.json .
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=installer --chown=nestjs:nodejs /app/apps/docs/.next/standalone ./
-COPY --from=installer --chown=nestjs:nodejs /app/apps/docs/.next/static ./apps/docs/.next/static
-COPY --from=installer --chown=nestjs:nodejs /app/apps/docs/public ./apps/docs/public
+COPY --from=installer --chown=nextjs:nodejs /app/apps/docs/.next/standalone ./
+COPY --from=installer --chown=nextjs:nodejs /app/apps/docs/.next/static ./apps/docs/.next/static
+COPY --from=installer --chown=nextjs:nodejs /app/apps/docs/public ./apps/docs/public
 
 CMD ["node", "apps/docs/server.js"]

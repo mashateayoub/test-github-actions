@@ -48,8 +48,8 @@ docker compose up --build
 ```
 
 - **API**: `http://localhost:4000/data`
-- **Web**: `http://localhost:3000`
-- **Docs**: `http://localhost:3001`
+- **Web**: `http://localhost:3006`
+- **Docs**: `http://localhost:3005`
 - **DB**: Port `5432`
 
 ### Build
