@@ -1,0 +1,57 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    ports:
+      - "4000:4000"
+    environment:
+      - PORT=4000
+      - DATABASE_URL=postgresql://user:password@db:5432/monorepo
+    networks:
+      - monorepo-network
+    depends_on:
+      - db
+
+  db:
+    build:
+      context: apps/database
+      dockerfile: Dockerfile
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=monorepo
+    ports:
+      - "5432:5432"
+    networks:
+      - monorepo-network
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+    networks:
+      - monorepo-network
+    depends_on:
+      - api
+
+  docs:
+    build:
+      context: .
+      dockerfile: apps/docs/Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+    networks:
+      - monorepo-network
+    depends_on:
+      - api
+
+networks:
+  monorepo-network:
+    driver: bridge
