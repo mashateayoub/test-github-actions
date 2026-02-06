@@ -19,7 +19,7 @@ export async function ensureDatabaseExists() {
       port: parseInt(url.port) || 5432,
       database: 'postgres', // Connect to default DB to check/create others
     };
-  } catch (e) {
+  } catch {
     // Fallback if URL parsing fails
     baseConfig = {
       user: 'user',
@@ -33,7 +33,7 @@ export async function ensureDatabaseExists() {
   const targetDb =
     connectionString.split('/').pop()?.split('?')[0] || 'monorepo';
 
-  const client = new Client(baseConfig);
+  const client = new Client(baseConfig as any);
   try {
     await client.connect();
     const res = await client.query(
