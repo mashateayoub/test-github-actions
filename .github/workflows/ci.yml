@@ -42,7 +42,14 @@ jobs:
       - name: 5. Push Docker Images
         if: github.event_name != 'pull_request'
         run: |
-            docker compose build
-            docker push ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-api:latest
-            docker push ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-web:latest
-            docker push ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-docs:latest
+          # Build and push API
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-api:latest -f apps/api/Dockerfile .
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-api:latest
+
+          # Build and push Web
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-web:latest -f apps/web/Dockerfile .
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-web:latest
+
+          # Build and push Docs
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-docs:latest -f apps/docs/Dockerfile .
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-docs:latest
