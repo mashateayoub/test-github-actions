@@ -33,7 +33,7 @@ export async function ensureDatabaseExists() {
   const targetDb =
     connectionString.split('/').pop()?.split('?')[0] || 'monorepo';
 
-  const client = new Client(baseConfig as any);
+  const client = new Client(baseConfig);
   try {
     await client.connect();
     const res = await client.query(
